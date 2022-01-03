@@ -78,7 +78,9 @@ echo Temp directory \"$tmp_dir\" is created
 echo ::endgroup::
 
 echo ::group:: Running Sphinx builder
-sphinx-build -b html $doc_dir $tmp_dir
+sphinx-build -b singlehtml $doc_dir $tmp_dir
+sphinx-build -b latexpdf $doc_dir $tmp_dir
+sphinx-build -b epub $doc_dir $tmp_dir
 echo ::endgroup::
 
 echo ::group:: Setting up git repository
