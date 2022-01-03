@@ -77,9 +77,15 @@ tmp_dir=$(mktemp -d -t pages-XXXXXXXXXX)
 echo Temp directory \"$tmp_dir\" is created
 echo ::endgroup::
 
+echo ::group:: Converting images
+cd pkt
+make
+cd ..
+echo ::endgroup::
+
 echo ::group:: Running Sphinx builder
 sphinx-build -b singlehtml $doc_dir $tmp_dir
-sphinx-build -b latexpdf $doc_dir $tmp_dir
+sphinx-build -M latexpdf $doc_dir $tmp_dir
 sphinx-build -b epub $doc_dir $tmp_dir
 echo ::endgroup::
 
