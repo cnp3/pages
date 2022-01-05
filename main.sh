@@ -83,42 +83,44 @@ make
 cd ..
 echo ::endgroup::
 
-echo ::group:: Running Sphinx builder
-sphinx-build -b singlehtml $doc_dir $tmp_dir
+echo ::group:: Running Sphinx builders
 sphinx-build -M latexpdf $doc_dir $tmp_dir
 sphinx-build -b epub $doc_dir $tmp_dir
+sphinx-build -b singlehtml $doc_dir $tmp_dir
 echo ::endgroup::
 
-echo ::group:: Setting up git repository
-echo Setting up git configure
-cd $repo_dir
-git config --local user.email "action@github.com"
-git config --local user.name "GitHub Action"
-git stash
-echo Setting up branch $INPUT_TARGET_BRANCH
-branch_exist=$(git ls-remote --heads origin refs/heads/$INPUT_TARGET_BRANCH)
-if [ -z "$branch_exist" ]; then
-    echo Branch doesn\'t exist, create an emptry branch
-    git checkout --force --orphan $INPUT_TARGET_BRANCH
-else
-    echo Branch exists, checkout to it
-    git checkout --force $INPUT_TARGET_BRANCH
-fi
-git clean -fd
-echo ::endgroup::
+# to be replaced by an artifact
 
-echo ::group:: Committing HTML documentation
-cd $repo_dir
-echo Deleting all file in repository
-rm -vrf *
-echo Copying HTML documentation to repository
-cp -vr $tmp_dir/. .
-echo Adding HTML documentation to repository index
-git add .
-echo Checking out extra files
-for f in $INPUT_EXTRA_FILES; do
-    git checkout $GITHUB_REF $f
-done
-echo Recording changes to repository
-git commit --allow-empty -m "Add changes for $GITHUB_SHA"
-echo ::endgroup::
+#echo ::group:: Setting up git repository
+#echo Setting up git configure
+#cd $repo_dir
+#git config --local user.email "action@github.com"
+#git config --local user.name "GitHub Action"
+#git stash
+#echo Setting up branch $INPUT_TARGET_BRANCH
+#branch_exist=$(git ls-remote --heads origin refs/heads/$INPUT_TARGET_BRANCH)
+#if [ -z "$branch_exist" ]; then
+#    echo Branch doesn\'t exist, create an emptry branch
+#    git checkout --force --orphan $INPUT_TARGET_BRANCH
+#else
+#    echo Branch exists, checkout to it
+#    git checkout --force $INPUT_TARGET_BRANCH
+#fi
+#git clean -fd
+#echo ::endgroup::
+#
+#echo ::group:: Committing HTML documentation
+#cd $repo_dir
+#echo Deleting all file in repository
+#rm -vrf *
+#echo Copying HTML documentation to repository
+#cp -vr $tmp_dir/. .
+#echo Adding HTML documentation to repository index
+#git add .
+#echo Checking out extra files
+#for f in $INPUT_EXTRA_FILES; do
+#    git checkout $GITHUB_REF $f
+#done
+#echo Recording changes to repository
+#git commit --allow-empty -m "Add changes for $GITHUB_SHA"
+#echo ::endgroup::
