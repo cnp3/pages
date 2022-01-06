@@ -84,6 +84,7 @@ cd ..
 echo ::endgroup::
 
 echo ::group:: Running Sphinx builders
+sphinx-build -W -b spelling $doc_dir $tmp_dir
 sphinx-build -M latexpdf $doc_dir $tmp_dir
 sphinx-build -b epub $doc_dir $tmp_dir
 sphinx-build -b singlehtml $doc_dir $tmp_dir
